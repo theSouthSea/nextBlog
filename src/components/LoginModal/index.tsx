@@ -1,13 +1,15 @@
 import { ChangeEvent, useState } from "react";
 import styles from "./index.module.scss";
 import CountDown from "../CountDown";
+import { message } from "antd";
+import request from "@/services/fetch";
 interface LoginModalProps {
   isShow: boolean;
   onClose: () => void;
 }
 
 export default function LoginModal(props: LoginModalProps) {
-  const { isShow = false } = props;
+  const { isShow = false, onClose } = props;
   const [form, setForm] = useState({
     phone: "",
     verify: "",
@@ -15,10 +17,47 @@ export default function LoginModal(props: LoginModalProps) {
   const [isShowVerifyCode, setIsShowVerifyCode] = useState(false);
   const handleVerifyCode = () => {
     // console.log("handleVerifyCode");
+    if (!form.phone) {
+      message.warning("请输入手机号");
+      return;
+    }
+    // request.post("/api/user/sendVerifyCode",{
+    //   PhoneNumbers: form.phone,
+    //   SignName: '阿里云短信测试',
+    //   TemplateCode: 'SMS_154950909',
+    // })
+    console.log("form", form);
+    request
+      .post("/api/user/sendVerifyCode", {
+        to: form.phone,
+        templateId: "1",
+      })
+      .then((res: any) => {
+        console.log(res);
+        if (res.code === 0) {
+          message.success("发送成功");
+          setIsShowVerifyCode(true);
+        } else {
+          message.error(res.msg || "发送失败");
+        }
+      });
     setIsShowVerifyCode(true);
   };
   const handleLogin = () => {
-    console.log("handleLogin");
+    // console.log("handleLogin");
+    request
+      .post("/api/user/login", {
+        ...form,
+        identity_type: "phone",
+      })
+      .then((res: any) => {
+        if (res.code === 0) {
+          message.success("登录成功");
+          onClose?.();
+        } else {
+          message.error(res.msg || "登录失败");
+        }
+      });
   };
   const handleOAuthGithub = () => {
     console.log("handleOAuthGithub");
@@ -62,7 +101,6 @@ export default function LoginModal(props: LoginModalProps) {
             placeholder="请输入验证码"
             maxLength={11}
             autoComplete="off"
-            autoFocus
             className={styles.usernameInput}
           />
           <span className={styles.verifyCode} onClick={handleVerifyCode}>
