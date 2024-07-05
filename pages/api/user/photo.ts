@@ -18,9 +18,19 @@ export default async function addPhoto(
   photo.views = views || 1;
   photo.isPublished = isPublished || true;
   try {
-    const saveRes = await AppDataSource.manager.save(photo);
-    console.log("Photo has been saved. Photo id is", photo.id);
-    console.log("saveRes=", saveRes);
+    /* 实体管理器EntityManager使用示例 */
+    // const saveRes = await AppDataSource.manager.save(photo);
+    // console.log("saveRes=", saveRes);
+    // console.log("Photo has been saved. Photo id is", photo.id);
+    /* 仓库Repository使用示例 */
+    const photoRepository = AppDataSource.getRepository(Photo);
+    /* 保存 */
+    const saveRes = await photoRepository.save(photo);
+    console.log("Photo has been saved");
+    /* 搜索全部 */
+    const savedPhotos = await photoRepository.find();
+    console.log("All photos from the db: ", savedPhotos);
+
     res.status(200).json({
       code: 0,
       msg: "添加成功",
@@ -35,4 +45,3 @@ export default async function addPhoto(
     });
   }
 }
-

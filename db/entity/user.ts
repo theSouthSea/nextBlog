@@ -17,3 +17,4 @@ export class User extends BaseEntity {
   @Column()
   introduce!: string;
 }
+

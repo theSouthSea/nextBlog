@@ -31,7 +31,8 @@ const AppDataSource = new DataSource({
 AppDataSource.initialize()
   .then((data) => {
     // here you can start to work with your database
-    console.log("dataSource-init-data=", data);
+    // console.log("dataSource-init-data=", data);
+    // return data;
   })
   .catch((error) => console.log("dataSource-init-error=", error));
 // const AppDataSource = AppDataSource1.initialize();

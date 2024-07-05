@@ -1,7 +1,18 @@
 "use client";
-import { Button, Checkbox, Form, FormProps, Input, message, Radio } from "antd";
+import {
+  Avatar,
+  Button,
+  Checkbox,
+  Form,
+  FormProps,
+  Input,
+  List,
+  message,
+  Radio,
+} from "antd";
 import "db/new";
 import request from "@/services/fetch";
+import { useEffect, useState } from "react";
 
 type FieldType = {
   name?: string;
@@ -27,10 +38,46 @@ export default function PhotoPage() {
   ) => {
     console.log("Failed:", errorInfo);
   };
+  const [data, setData] = useState<FieldType[]>([]);
+  useEffect(() => {
+    // 会调用两次,第一次会报错
+    // request.get("/api/user/getPhotos").then((res: any) => {
+    //   console.log(res);
+    //   if (res.code === 0) {
+    //     setData(res.data);
+    //   }
+    // });
+    // 这样也会调用两次,第一次会报错
+    setTimeout(() => {
+      request.get("/api/user/getPhotos").then((res: any) => {
+        console.log(res);
+        if (res.code === 0) {
+          setData(res.data);
+        }
+      });
+    }, 500);
+  }, []);
   return (
     <div>
       <h1>Photo Page</h1>
       <h2>添加图片</h2>
+      <List
+        itemLayout="horizontal"
+        dataSource={data}
+        renderItem={(item, index) => (
+          <List.Item>
+            <List.Item.Meta
+              avatar={
+                <Avatar
+                  src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`}
+                />
+              }
+              title={<a href="https://ant.design">{item.name}</a>}
+              description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+            />
+          </List.Item>
+        )}
+      />
       <Form
         name="basic"
         labelCol={{ span: 8 }}
