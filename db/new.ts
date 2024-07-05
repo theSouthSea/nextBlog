@@ -2,7 +2,8 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { Photo } from "./entity/photo";
-import mysql2 from "mysql2/promise";
+// import mysql2 from "mysql2/promise";
+import mysql2 from "mysql2";
 
 const host = process.env.DATABASE_HOST || "localhost";
 const port = parseInt(process.env.DATABASE_PORT || "3306");
@@ -27,11 +28,12 @@ const AppDataSource = new DataSource({
 // to initialize the initial connection with the database, register all entities
 // and "synchronize" database schema, call "initialize()" method of a newly created database
 // once in your application bootstrap
-// AppDataSource.initialize()
-//   .then(() => {
-//     // here you can start to work with your database
-//   })
-//   .catch((error) => console.log(error));
+AppDataSource.initialize()
+  .then((data) => {
+    // here you can start to work with your database
+    console.log("dataSource-init-data=", data);
+  })
+  .catch((error) => console.log("dataSource-init-error=", error));
 // const AppDataSource = AppDataSource1.initialize();
 export { AppDataSource };
 

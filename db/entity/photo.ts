@@ -1,7 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
 
-@Entity()
-export class Photo {
+@Entity({ name: "photo" })
+export class Photo extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -24,3 +24,4 @@ export class Photo {
   @Column()
   isPublished!: boolean;
 }
+

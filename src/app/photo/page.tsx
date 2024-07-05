@@ -66,15 +66,6 @@ export default function PhotoPage() {
         >
           <Input />
         </Form.Item>
-        <Form.Item<FieldType>
-          label="filename"
-          name="filename"
-          rules={[
-            { required: true, message: "Please input your photo filename!" },
-          ]}
-        >
-          <Input />
-        </Form.Item>
 
         <Form.Item<FieldType>
           label="views"
