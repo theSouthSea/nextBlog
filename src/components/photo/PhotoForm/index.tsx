@@ -1,3 +1,4 @@
+"use client";
 import {
   Avatar,
   Button,
@@ -11,11 +12,12 @@ import {
   Skeleton,
 } from "antd";
 import request from "@/services/fetch";
-import { forwardRef, Ref, useImperativeHandle } from "react";
+import { forwardRef, Ref, useImperativeHandle, useState } from "react";
 interface PhotoFormProps {
   onSuccess: () => void;
   onFailed: () => void;
   isModal?: boolean;
+  isDetail?: boolean;
 }
 type FieldType = {
   name?: string;
@@ -26,13 +28,22 @@ type FieldType = {
 };
 export type RefProps = {
   submit: () => void;
+  setForm: (value: FieldType, isDetail?: boolean) => void;
+  resetForm: () => void;
 };
 const PhotoFormFn = (props: PhotoFormProps, ref: Ref<RefProps>) => {
-  const { onSuccess, onFailed, isModal = false } = props;
+  const { onSuccess, onFailed, isModal = false, isDetail = false } = props;
+  const [isFormDetail, setIsFormDetail] = useState<boolean>(isDetail);
+  const [isCreate, setIsCreate] = useState(false);
   const [form] = Form.useForm();
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    console.log("Success:", values);
-    request.post("/api/user/photo", values).then((res: any) => {
+    // values只有Form中Form.Item中的数据,通过form.setFieldsValue(value);设置的额外数据如何获取
+    // 可以通过form.getFieldsValue();获取
+    const allValues = form.getFieldsValue();
+    console.log("Success-values:", values);
+    console.log("Success-allValues:", allValues);
+    const reqType = isCreate ? "post" : "put";
+    request[reqType]("/api/user/photo", allValues).then((res: any) => {
       if (res.code === 0) {
         message.success("提交成功");
         onSuccess?.();
@@ -45,6 +56,18 @@ const PhotoFormFn = (props: PhotoFormProps, ref: Ref<RefProps>) => {
   useImperativeHandle(ref, () => ({
     submit: () => {
       form.submit();
+    },
+    setForm: (value: FieldType, type?: boolean) => {
+      form.setFieldsValue(value);
+      setIsCreate(false);
+      // if (typeof type !== "undefined") {
+      if (type !== undefined) {
+        setIsFormDetail(type);
+      }
+    },
+    resetForm: () => {
+      form.resetFields();
+      setIsCreate(true);
     },
   }));
 
@@ -63,6 +86,7 @@ const PhotoFormFn = (props: PhotoFormProps, ref: Ref<RefProps>) => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
+      disabled={isFormDetail}
       form={form}
     >
       <Form.Item<FieldType>

@@ -1,3 +1,4 @@
+"use client";
 import { Modal } from "antd";
 import { ReactNode } from "react";
 
@@ -15,6 +16,7 @@ const PhotoModal = (props: PhotoModalProps) => {
       title="Create a new collection"
       okText="Create"
       cancelText="Cancel"
+      forceRender
       // okButtonProps={{ autoFocus: true, htmlType: 'submit' }}
       onCancel={onClose}
       onOk={onOk}
@@ -37,3 +39,4 @@ const PhotoModal = (props: PhotoModalProps) => {
   );
 };
 export default PhotoModal;
+
