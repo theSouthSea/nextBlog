@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@ant-design/icons':
+        specifier: ^5.3.7
+        version: 5.3.7(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@ant-design/nextjs-registry':
         specifier: ^1.0.0
         version: 1.0.0(@ant-design/cssinjs@1.21.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(antd@5.19.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(next@14.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.77.6))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -29,12 +32,21 @@ importers:
       md5:
         specifier: ^2.3.0
         version: 2.3.0
+      mobx:
+        specifier: ^6.13.0
+        version: 6.13.0
+      mobx-react-lite:
+        specifier: ^4.0.7
+        version: 4.0.7(mobx@6.13.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       mysql2:
         specifier: ^3.10.2
         version: 3.10.2
       next:
         specifier: 14.2.4
         version: 14.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.77.6)
+      next-cookie:
+        specifier: ^2.8.0
+        version: 2.8.0(next@14.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.77.6))
       react:
         specifier: ^18
         version: 18.3.1
@@ -400,6 +412,9 @@ packages:
   '@tsconfig/node16@1.0.4':
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
 
+  '@types/cookie@0.3.3':
+    resolution: {integrity: sha512-LKVP3cgXBT9RYj+t+9FDKwS5tdI+rPBXaNSkma7hvqy35lc7mAokC2zsqWJH0LaqIt3B962nuYI77hsJoT1gow==}
+
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
 
@@ -697,6 +712,10 @@ packages:
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+
+  cookie@0.4.2:
+    resolution: {integrity: sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==}
+    engines: {node: '>= 0.6'}
 
   cookie@0.6.0:
     resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
@@ -1526,6 +1545,22 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  mobx-react-lite@4.0.7:
+    resolution: {integrity: sha512-RjwdseshK9Mg8On5tyJZHtGD+J78ZnCnRaxeQDSiciKVQDUbfZcXhmld0VMxAwvcTnPEHZySGGewm467Fcpreg==}
+    peerDependencies:
+      mobx: ^6.9.0
+      react: ^16.8.0 || ^17 || ^18
+      react-dom: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+
+  mobx@6.13.0:
+    resolution: {integrity: sha512-1laWODrBWmB7mDJ8EClCjUQTyLwJ0ydJgE4FtK7t9r3JnjXgc9OhmYs2P4RtHrY1co5+4T6cKP2UswX2SU29mA==}
+
   mockjs@1.1.0:
     resolution: {integrity: sha512-eQsKcWzIaZzEZ07NuEyO4Nw65g0hdWAyurVol1IPl1gahRwY+svqzfgfey8U8dahLwG44d6/RwEzuK52rSa/JQ==}
     hasBin: true
@@ -1554,6 +1589,11 @@ packages:
 
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
+
+  next-cookie@2.8.0:
+    resolution: {integrity: sha512-wxDAqEcP6i5JRvpSIySm9tu7oSX/VGdkdsANyV2jryA5MpkSdT8rvJGp+qglSGT0AyQq4WPVBbR0nuVXLG+zcA==}
+    peerDependencies:
+      next: '>=10'
 
   next@14.2.4:
     resolution: {integrity: sha512-R8/V7vugY+822rsQGQCjoLhMuC9oFj9SOi4Cl4b2wjDrseD0LRZ10W7R6Czo4w9ZznVSshKjuIomsRjvm9EKJQ==}
@@ -2460,8 +2500,16 @@ packages:
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
+  universal-cookie@4.0.4:
+    resolution: {integrity: sha512-lbRVHoOMtItjWbM7TwDLdl8wug7izB0tq3/YVKhT/ahB4VDvWMyvnADfnJI8y6fSvsjh51Ix7lTGC6Tn4rMPhw==}
+
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
+
+  use-sync-external-store@1.2.2:
+    resolution: {integrity: sha512-PElTlVMwpblvbNqQ82d2n6RjStvdSoNe9FG28kNfz3WiXilJm4DdNkEzRhCZuIDwY8U08WVihhGR5iRqAwfDiw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -2844,6 +2892,8 @@ snapshots:
   '@tsconfig/node14@1.0.3': {}
 
   '@tsconfig/node16@1.0.4': {}
+
+  '@types/cookie@0.3.3': {}
 
   '@types/json5@0.0.29': {}
 
@@ -3239,6 +3289,8 @@ snapshots:
   compute-scroll-into-view@3.1.0: {}
 
   concat-map@0.0.1: {}
+
+  cookie@0.4.2: {}
 
   cookie@0.6.0: {}
 
@@ -4192,6 +4244,16 @@ snapshots:
 
   mkdirp@2.1.6: {}
 
+  mobx-react-lite@4.0.7(mobx@6.13.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      mobx: 6.13.0
+      react: 18.3.1
+      use-sync-external-store: 1.2.2(react@18.3.1)
+    optionalDependencies:
+      react-dom: 18.3.1(react@18.3.1)
+
+  mobx@6.13.0: {}
+
   mockjs@1.1.0:
     dependencies:
       commander: 4.1.1
@@ -4224,6 +4286,11 @@ snapshots:
   nanoid@3.3.7: {}
 
   natural-compare@1.4.0: {}
+
+  next-cookie@2.8.0(next@14.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.77.6)):
+    dependencies:
+      next: 14.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.77.6)
+      universal-cookie: 4.0.4
 
   next@14.2.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.77.6):
     dependencies:
@@ -5269,9 +5336,18 @@ snapshots:
 
   undici-types@5.26.5: {}
 
+  universal-cookie@4.0.4:
+    dependencies:
+      '@types/cookie': 0.3.3
+      cookie: 0.4.2
+
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
+
+  use-sync-external-store@1.2.2(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   util-deprecate@1.0.2: {}
 

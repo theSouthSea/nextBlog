@@ -3,12 +3,16 @@ import styles from "./index.module.scss";
 import CountDown from "../CountDown";
 import { message } from "antd";
 import request from "@/services/fetch";
+import { useStore } from "@/store";
+import { observer } from "mobx-react-lite";
 interface LoginModalProps {
   isShow: boolean;
   onClose: () => void;
 }
 
-export default function LoginModal(props: LoginModalProps) {
+function LoginModal(props: LoginModalProps) {
+  const store = useStore();
+  console.log("store=", store);
   const { isShow = false, onClose } = props;
   const [form, setForm] = useState({
     phone: "",
@@ -53,6 +57,7 @@ export default function LoginModal(props: LoginModalProps) {
       .then((res: any) => {
         if (res.code === 0) {
           message.success("登录成功");
+          store.user.setUserInfo(res.data);
           onClose?.();
         } else {
           message.error(res.msg || "登录失败");
@@ -61,6 +66,11 @@ export default function LoginModal(props: LoginModalProps) {
   };
   const handleOAuthGithub = () => {
     console.log("handleOAuthGithub");
+    const githubClientId = "Ov23lizKsHWZgJq1CywL";
+    const url = "http://localhost:3000/api/oauth/redirect";
+    window.open(
+      `https://github.com/login/oauth/authorize?client_id=${githubClientId}&redirect_uri=${url}`
+    );
   };
   const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -131,4 +141,6 @@ export default function LoginModal(props: LoginModalProps) {
     </div>
   ) : null;
 }
+
+export default observer(LoginModal);
 

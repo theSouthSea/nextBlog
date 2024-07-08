@@ -6,4 +6,5 @@ export const ironOptions = {
     secure: process.env.NODE_ENV === "production",
   },
 };
-
+// 验证码5分钟后过期
+export const expireMinute = 5;

@@ -3,8 +3,10 @@ import { getIronSession } from "iron-session";
 import { ironOptions } from "@/config";
 import { User, UserAuth } from "db/entity";
 import { AppDataSource, initDataSource } from "db";
+import { Cookie } from "next-cookie";
 // import { cookies } from "next/headers";
 import { ISession } from "..";
+import { setCookie } from "@/utils";
 export default async function login(req: NextApiRequest, res: NextApiResponse) {
   const session: ISession = await getIronSession(req, res, ironOptions);
   // const cookiesRes = cookies();
@@ -14,6 +16,7 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
   // console.log("session2=", session2);
   const { phone = "", verify = "", identity_type = "phone" } = req.body;
   console.log("login-req.body=", req.body);
+  const cookiesObj = Cookie.fromApiRoute(req, res);
   // const db = await prepareConnection();
   await initDataSource();
   const userRepo = AppDataSource.getRepository(User);
@@ -22,16 +25,41 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
   console.log("users=", users);
   console.log("session.verify=", session.verifyCode, verify);
   if (String(session.verifyCode) === String(verify)) {
-    const userAuth = await userAuthRepo.findOneBy(
-      {
+    // const userAuth = await userAuthRepo.findOneBy(
+    // const userAuth = await userAuthRepo.findOne(
+    //   {
+    //     identity_type,
+    //     identifier: phone,
+    //   },
+    //   {
+    //     relations: ["user"],
+    //   }
+    // );
+    const userAuth = await userAuthRepo.findOne({
+      where: {
         identity_type,
         identifier: phone,
       },
-      {
-        relations: ["user"],
-      }
-    );
+      relations: ["user"],
+    });
+    console.log("userAuth-4=", userAuth);
     if (userAuth) {
+      const user = userAuth.user;
+      const { id, nickname, avatar } = user;
+      session.userId = id;
+      session.nickname = nickname;
+      session.avatar = avatar;
+      await session.save();
+      setCookie(cookiesObj, { userId: id, nickname, avatar });
+      res.status(200).json({
+        code: 0,
+        data: {
+          userId: id,
+          nickname,
+          avatar,
+        },
+        msg: "登陆成功",
+      });
     } else {
       // 不存在,自动注册新用户
       const user = new User();
@@ -48,18 +76,30 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
 
       const resUserAuth = await userAuthRepo.save(newUserAuth);
       console.log("resUserAuth=", resUserAuth);
+      const {
+        user: { id, nickname, avatar },
+      } = resUserAuth;
+      session.userId = id;
+      session.nickname = nickname;
+      session.avatar = avatar;
+      await session.save();
+      setCookie(cookiesObj, { userId: id, nickname, avatar });
+      res.status(200).json({
+        code: 0,
+        data: {
+          userId: id,
+          nickname,
+          avatar,
+        },
+        msg: "登陆成功",
+      });
     }
+  } else {
+    res.status(200).json({
+      code: -1,
+      data: null,
+      msg: "验证码错误",
+    });
   }
-  res.status(200).json({
-    code: 0,
-    data: {
-      token: "123456",
-      userInfo: {
-        phone,
-        verify,
-      },
-    },
-    msg: "登陆成功",
-  });
 }
 

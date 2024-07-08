@@ -18,7 +18,7 @@ axiosInstance.interceptors.response.use(
       return response.data;
     }
     return {
-      code: "-1",
+      code: -1,
       msg: "未知错误",
       data: null,
     };

@@ -70,6 +70,11 @@ export default async function sendVerifyCode(
   if (statusCode === "000000") {
     session.verifyCode = verifyCode;
     await session.save();
+    // 验证码5分钟后过期
+    // setTimeout(async () => {
+    //   session.verifyCode = "";
+    //   await session.save();
+    // }, Number(expireMinute) * 60 * 1000);
     res.status(200).json({
       code: 0,
       msg: statusMsg || "发送成功",
