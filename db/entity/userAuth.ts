@@ -8,8 +8,10 @@ import {
 } from "typeorm";
 import { User } from "./user";
 
-@Entity({ name: "user_auths" })
-export class UserAuth extends BaseEntity {
+// @Entity({ name: "user_auths" })
+// export class UserAuth extends BaseEntity {
+@Entity("user_auths")
+export class UserAuth {
   @PrimaryGeneratedColumn()
   readonly id!: number;
 

@@ -2,25 +2,34 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getIronSession } from "iron-session";
 import { ironOptions } from "@/config";
 import { User, UserAuth } from "db/entity";
-import { prepareConnection } from "db";
+import { AppDataSource, initDataSource } from "db";
+// import { cookies } from "next/headers";
 import { ISession } from "..";
 export default async function login(req: NextApiRequest, res: NextApiResponse) {
   const session: ISession = await getIronSession(req, res, ironOptions);
+  // const cookiesRes = cookies();
+  // const cookies = req.cookies;
+  // const session2 = await getIronSession<ISession>(cookies, ironOptions);
+  console.log("session=", session);
+  // console.log("session2=", session2);
   const { phone = "", verify = "", identity_type = "phone" } = req.body;
-  const db = await prepareConnection();
-  const userRepo = db.getRepository(User);
-  const userAuthRepo = db.getRepository(UserAuth);
+  console.log("login-req.body=", req.body);
+  // const db = await prepareConnection();
+  await initDataSource();
+  const userRepo = AppDataSource.getRepository(User);
+  const userAuthRepo = AppDataSource.getRepository(UserAuth);
   const users = await userRepo.find();
   console.log("users=", users);
-  if (String(session.verify) === String(verify)) {
-    const userAuth = await userAuthRepo.findOne(
+  console.log("session.verify=", session.verifyCode, verify);
+  if (String(session.verifyCode) === String(verify)) {
+    const userAuth = await userAuthRepo.findOneBy(
       {
         identity_type,
         identifier: phone,
+      },
+      {
+        relations: ["user"],
       }
-      // {
-      //   relations: ["user"],
-      // }
     );
     if (userAuth) {
     } else {
@@ -34,7 +43,7 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
       const newUserAuth = new UserAuth();
       newUserAuth.identifier = phone;
       newUserAuth.identity_type = identity_type;
-      newUserAuth.credential = session.verify;
+      newUserAuth.credential = session.verifyCode;
       newUserAuth.user = user;
 
       const resUserAuth = await userAuthRepo.save(newUserAuth);

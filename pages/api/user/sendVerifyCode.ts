@@ -9,16 +9,21 @@ import { encode } from "js-base64";
 import { getIronSession } from "iron-session";
 import { ironOptions } from "@/config";
 import { ISession } from "..";
+// import { cookies } from "next/headers";
 export default async function sendVerifyCode(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const session: ISession = await getIronSession(req, res, ironOptions);
+  // const cookiesRes = cookies();
+  // const cookies = req.cookies;
+  // const session = await getIronSession<ISession>(cookies, ironOptions);
+  console.log("verify-session=", session);
   const { to = "", templateId = "1" } = req.body;
   console.log("req.body=", req.body);
   const baseUrl = "https://app.cloopen.com:8883";
-  const bizUrl =
-    "/2013-12-26/Accounts/{accountSid}/SMS/{funcdes}?sig={SigParameter}";
+  // const bizUrl =
+  //   "/2013-12-26/Accounts/{accountSid}/SMS/{funcdes}?sig={SigParameter}";
   const accountSid = "2c94811c9035ff9f01907e289a5e10d1";
   const funcdes = "TemplateSMS";
   // const timestamp = dayjs().format("yyyyMMddHHmmss");
