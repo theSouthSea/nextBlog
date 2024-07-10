@@ -6,14 +6,22 @@ import Link from "next/link";
 const EditButton = ({
   userId,
   articleId,
+  className,
 }: {
   userId: number;
   articleId: number;
+  className: string;
 }) => {
   const store = useStore();
   const id = store.user.userInfo.userId;
   return Number(userId) === Number(id) ? (
-    <Link href={`/article/${articleId}/edit`}>编辑</Link>
+    <Link
+      className={className}
+      href={`/article/${articleId}/edit`}
+      style={{ color: "blue" }}
+    >
+      编辑
+    </Link>
   ) : null;
 };
 // export default EditButton

@@ -23,6 +23,10 @@ export async function getData(data: any) {
     },
     relations: ["user"],
   });
+  if (articleRes) {
+    articleRes.views++;
+    await articleRepo.save(articleRes);
+  }
   return articleRes;
 }
 const ArticleDetail = async (ctx: any) => {
@@ -58,7 +62,11 @@ const ArticleDetail = async (ctx: any) => {
               <Link href={`/article/${params.articleId}/edit`}>编辑</Link>
             )} */}
             {id && (
-              <EditButton userId={id} articleId={params.articleId}></EditButton>
+              <EditButton
+                userId={id}
+                articleId={params.articleId}
+                className="link"
+              ></EditButton>
             )}
           </div>
         </div>
