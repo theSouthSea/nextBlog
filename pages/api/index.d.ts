@@ -26,3 +26,12 @@ export type IArticle = {
   is_delete: number;
   user: IUser;
 };
+export type IComment = {
+  id: number;
+  content: string;
+  create_time: Date;
+  update_time: Date;
+  is_delete: number;
+  user: IUser;
+  article: IArticle;
+};

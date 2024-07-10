@@ -4,19 +4,15 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./user";
-import { Comment } from "./comment";
+import { Article } from "./article";
 
-@Entity("articles")
-export class Article {
+@Entity("comments")
+export class Comment {
   @PrimaryGeneratedColumn()
   readonly id!: number;
-
-  @Column()
-  title!: string;
 
   @Column()
   content!: string;
@@ -28,9 +24,6 @@ export class Article {
   update_time!: Date;
 
   @Column()
-  views!: number;
-
-  @Column()
   is_delete!: number;
 
   // @ManyToOne(() => User, (user) => user.id)
@@ -38,7 +31,8 @@ export class Article {
   @JoinColumn({ name: "user_id" })
   user!: User;
 
-  @OneToMany(() => Comment, (comment) => comment.article)
-  comments!: Comment[];
+  @ManyToOne(() => Article)
+  @JoinColumn({ name: "article_id" })
+  article!: Article;
 }
 

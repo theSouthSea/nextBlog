@@ -18,3 +18,13 @@ export const EXCEPTION_ARTICLE = {
   },
 };
 
+export const EXCEPTION_COMMENT = {
+  PUBLISH_FAIL: {
+    code: 3001,
+    msg: "发布失败",
+  },
+  UPDATE_FAIL: {
+    code: 3002,
+    msg: "更新失败",
+  },
+};

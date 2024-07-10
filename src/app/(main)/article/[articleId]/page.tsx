@@ -6,12 +6,15 @@ import { AppDataSource, initDataSource } from "db";
 import { Article } from "db/entity";
 import styles from "./index.module.scss";
 import { Avatar } from "antd";
-import { observer } from "mobx-react-lite";
-import { useStore } from "@/store";
-import Link from "next/link";
+// import { observer } from "mobx-react-lite";
+// import { useStore } from "@/store";
+// import Link from "next/link";
 import MarkdownEffect from "markdown-to-jsx";
 import EditButton from "./EditButton";
-
+// import Comment from "./Comment";
+// import CommentList from "./CommentList";
+// import { IComment } from "pages/api";
+import CommentAndList from "./CommentAndList";
 export async function getData(data: any) {
   console.log("params=", data);
   const { articleId } = data;
@@ -21,14 +24,31 @@ export async function getData(data: any) {
     where: {
       id: articleId,
     },
-    relations: ["user"],
+    relations: ["user", "comments", "comments.user"],
   });
+  console.log("articleRes=", articleRes);
   if (articleRes) {
     articleRes.views++;
     await articleRepo.save(articleRes);
   }
   return articleRes;
 }
+const list = [
+  {
+    id: 6,
+    content: "加油努力",
+    create_time: "2024-07-10T07:30:50.000Z",
+    update_time: "2024-07-10T07:30:50.000Z",
+    is_delete: 0,
+    user: {
+      id: 2,
+      nickname: "用户_7227",
+      job: "程序员",
+      avatar: "/images/avatar.jpg",
+      introduce: "这个人很懒，什么都没有留下",
+    },
+  },
+];
 const ArticleDetail = async (ctx: any) => {
   // console.log("ctx=", ctx);
   // { params: { articleId: '3' }, searchParams: {} }
@@ -36,7 +56,10 @@ const ArticleDetail = async (ctx: any) => {
   // articleId
   /* 不能在使用ctx的情况下使用observer,useStore */
   // const store = useStore();
-  // const { userId } = store.user.userInfo;
+  // const commentListRef = useRef<RefProps>(null);
+  // const handleCommentSuccess = (data: IComment) => {
+  //   commentListRef.current?.setCommentList(data);
+  // };
   const params = ctx.params;
   // const router = useRouter();
   // const params = useSearchParams();
@@ -45,35 +68,65 @@ const ArticleDetail = async (ctx: any) => {
   // console.log("params=", params);
   // console.log("pathname=", pathname);
   const article = await getData(params);
-  const { title, content, create_time, views, update_time, user } =
-    article || {};
+  const {
+    id: articleId,
+    title,
+    content,
+    create_time,
+    views,
+    update_time,
+    user,
+    comments,
+  } = article || {};
   const { nickname, avatar, id } = user || {};
+  // console.log("comments=", comments);
+  const commentsStr = JSON.stringify(comments);
   return (
-    <div className="content-layout">
-      <div className={styles.title}>title</div>
-      <div className={styles.user}>
-        <Avatar src={avatar} size={50}></Avatar>
-        <div className={styles.info}>
-          <div className={styles.name}>{nickname}</div>
-          <div className={styles.time}>
-            <div>{update_time?.toLocaleString()}</div>
-            <div>阅读量:{views}</div>
-            {/* {Number(userId) === Number(id) && (
-              <Link href={`/article/${params.articleId}/edit`}>编辑</Link>
-            )} */}
-            {id && (
-              <EditButton
-                userId={id}
-                articleId={params.articleId}
-                className="link"
-              ></EditButton>
-            )}
+    <div>
+      <div className="content-layout">
+        <div className={styles.title}>title</div>
+        <div className={styles.user}>
+          <Avatar src={avatar} size={50}></Avatar>
+          <div className={styles.info}>
+            <div className={styles.name}>{nickname}</div>
+            <div className={styles.time}>
+              <div>{update_time?.toLocaleString()}</div>
+              <div>阅读量:{views}</div>
+              {/* {Number(userId) === Number(id) && (
+                <Link href={`/article/${params.articleId}/edit`}>编辑</Link>
+              )} */}
+              {id && (
+                <EditButton
+                  userId={id}
+                  articleId={params.articleId}
+                  className="link"
+                ></EditButton>
+              )}
+            </div>
           </div>
         </div>
+        <MarkdownEffect className={styles.markdown}>
+          {content || ""}
+        </MarkdownEffect>
       </div>
-      <MarkdownEffect className={styles.markdown}>
-        {content || ""}
-      </MarkdownEffect>
+      <div className={styles.divider}></div>
+      {/* <div className="content-layout">
+        <h3>评论</h3>
+        {articleId && (
+          <Comment
+            avatar={avatar}
+            articleId={articleId}
+            onSuccess={handleCommentSuccess}
+          ></Comment>
+        )}
+        <Divider></Divider>
+        <CommentList comments={comments!} ref={commentListRef!}></CommentList>
+      </div> */}
+      <CommentAndList
+        articleId={articleId!}
+        avatar={avatar!}
+        commentsStr={commentsStr}
+      ></CommentAndList>
     </div>
   );
 };
