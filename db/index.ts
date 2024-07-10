@@ -7,7 +7,7 @@ import {
   DataSource,
 } from "typeorm";
 // import { Connection } from "typeorm/browser";
-import { User, UserAuth } from "./entity";
+import { Article, User, UserAuth } from "./entity";
 import mysql2 from "mysql2";
 
 // let connectionReadyPromise: Promise<Connection> | null = null;
@@ -52,7 +52,7 @@ const AppDataSource = new DataSource({
   username,
   password,
   database,
-  entities: [User, UserAuth],
+  entities: [User, UserAuth, Article],
   synchronize: true,
   driver: mysql2,
   logging: false,

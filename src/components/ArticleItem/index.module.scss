@@ -1,0 +1,62 @@
+.container {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  cursor: pointer;
+  .article {
+    width: 90%;
+    .userInfo {
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      span {
+        padding: 0 10px;
+        border-right: 1px solid #ccc;
+      }
+      span:first-of-type{
+        padding-left: 0;
+      }
+      span:last-of-type {
+        border-right: 0;
+      }
+      .nickname {
+        color:#4e5965;
+        &:hover {
+          text-decoration: underline;
+          color: blue;
+        }
+      }
+      .time {
+        color: #86909c;
+      }
+    }
+    .title {
+      font-size: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: #4e5965;
+    }
+    .content {
+      color: #86909c;
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+    .statistics {
+      display: flex;
+      align-items: center;
+      span {
+        margin-left: 5px;
+      }
+    }
+  }
+
+}

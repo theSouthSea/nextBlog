@@ -7,7 +7,8 @@ export default function Layout({ children }: { children: ReactNode }) {
     <>
       <Navbar>Navbar</Navbar>
       <main>{children}</main>
-      <Footer>Footer</Footer>
+      <Footer>Next.js+Ant Design 实战</Footer>
     </>
   );
 }
+

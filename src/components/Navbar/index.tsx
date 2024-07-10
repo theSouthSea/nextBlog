@@ -18,10 +18,12 @@ import {
 import request from "@/services/fetch";
 import { IUserInfo } from "@/store/userStore";
 import { observer } from "mobx-react-lite";
+import { useRouter } from "next/navigation";
 
 function Navbar({ children }: { children: ReactNode }) {
   // next.js 14这种用法已经废除,使用usePathname获取路由路径
   // const {pathname} = useRouter()
+  const router = useRouter();
   const pathname = usePathname();
   const store = useStore();
   const { userId, avatar, nickname } = store.user.userInfo;
@@ -29,6 +31,7 @@ function Navbar({ children }: { children: ReactNode }) {
   const [isShowLoginModal, setIsShowLoginModal] = useState(false);
   const handleWrite = () => {
     console.log("write");
+    router.push("/article/new");
   };
   const handleLogin = () => {
     console.log("login");
@@ -51,14 +54,10 @@ function Navbar({ children }: { children: ReactNode }) {
     {
       key: "1",
       label: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
+        <div onClick={() => router.push(`/user/${userId}`)}>
           <HomeOutlined></HomeOutlined>
           &nbsp;个人主页
-        </a>
+        </div>
       ),
     },
     {
