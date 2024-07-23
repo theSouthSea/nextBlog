@@ -4,7 +4,7 @@ import { getIronSession } from "iron-session";
 import { ironOptions } from "@/config";
 import { AppDataSource, initDataSource } from "db";
 import { Article, Tag, User } from "db/entity";
-import { EXCEPTION_ARTICLE } from "pages/config/codes";
+import { EXCEPTION_ARTICLE } from "@/config/codes";
 
 export default async function createArticle(
   req: NextApiRequest,

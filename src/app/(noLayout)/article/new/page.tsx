@@ -75,6 +75,7 @@ function NewArticle() {
   };
   return (
     <div className={styles.container}>
+      {contextHolder}
       <div className={styles.operation}>
         <Input
           name="title"

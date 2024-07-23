@@ -15,7 +15,7 @@ import EditButton from "./EditButton";
 // import CommentList from "./CommentList";
 // import { IComment } from "pages/api";
 import CommentAndList from "./CommentAndList";
-export async function getData(data: any) {
+async function getData(data: any) {
   console.log("params=", data);
   const { articleId } = data;
   await initDataSource();

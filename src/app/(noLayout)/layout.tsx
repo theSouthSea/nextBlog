@@ -6,6 +6,7 @@ import { StoreProvider } from "@/store/index";
 import { IRootStore } from "@/store/rootStore";
 import { cookies } from "next/headers";
 import { IUserInfo } from "@/store/userStore";
+import { ReactElement } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactElement;
 }>) {
   const cokiesObj = cookies();
   console.log(

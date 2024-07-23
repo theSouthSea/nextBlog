@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ISession, ITag } from "..";
 import { AppDataSource, initDataSource } from "db";
 import { Article, Tag, User } from "db/entity";
-import { EXCEPTION_TAG, EXCEPTION_USER } from "pages/config/codes";
+import { EXCEPTION_TAG, EXCEPTION_USER } from "@/config/codes";
 
 export default async function followSwitch(
   req: NextApiRequest,

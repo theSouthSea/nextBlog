@@ -1,8 +1,8 @@
-import { NextApiRequest } from "next";
+import { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic"; // defaults to auto
 export async function GET(request: Request) {}
-export async function POST(req: NextApiRequest) {
+export async function POST(req: NextRequest) {
   // const session = req.cookies.get('session');
   const data = await req.json();
   const { title = "", content = "" } = data;

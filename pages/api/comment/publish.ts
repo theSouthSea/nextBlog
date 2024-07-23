@@ -4,7 +4,7 @@ import { getIronSession } from "iron-session";
 import { ironOptions } from "@/config";
 import { AppDataSource, initDataSource } from "db";
 import { Article, User, Comment } from "db/entity";
-import { EXCEPTION_ARTICLE, EXCEPTION_COMMENT } from "pages/config/codes";
+import { EXCEPTION_ARTICLE, EXCEPTION_COMMENT } from "@/config/codes";
 
 export default async function publishComment(
   req: NextApiRequest,

@@ -8,7 +8,7 @@ export interface IUserInfo {
 }
 export interface IUserStore {
   userInfo: Partial<IUserInfo>;
-  setUserInfo: (userInfo: IUserInfo) => void;
+  setUserInfo?: (userInfo: IUserInfo) => void;
 }
 const userStore = (): IUserStore => {
   return {

@@ -46,7 +46,7 @@ function Navbar({ children }: { children: ReactNode }) {
     request.post("/api/user/logout").then((res: any) => {
       // router.push("/");
       if (res.code === 0) {
-        store.user.setUserInfo({} as IUserInfo);
+        store.user.setUserInfo?.({} as IUserInfo);
       }
     });
   };

@@ -57,7 +57,7 @@ function LoginModal(props: LoginModalProps) {
       .then((res: any) => {
         if (res.code === 0) {
           message.success("登录成功");
-          store.user.setUserInfo(res.data);
+          store.user.setUserInfo?.(res.data);
           onClose?.();
         } else {
           message.error(res.msg || "登录失败");
