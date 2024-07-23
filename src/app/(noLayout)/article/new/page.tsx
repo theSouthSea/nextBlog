@@ -2,37 +2,52 @@
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import styles from "./index.module.scss";
 // import { commands } from "@uiw/react-md-editor";
 // import * as commands from "@uiw/react-md-editor/commands";
-import { Button, Input, message } from "antd";
+import { Button, Input, message, Select } from "antd";
 import request from "@/services/fetch";
 import { observer } from "mobx-react-lite";
 import { useStore } from "@/store";
 import { useRouter } from "next/navigation";
+import { ITag } from "pages/api";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 function NewArticle() {
+  const [messageApi, contextHolder] = message.useMessage();
   const store = useStore();
   const router = useRouter();
   const { userId } = store.user.userInfo;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [allTags, setAllTags] = useState<ITag[]>([]);
+  const [tagIds, setTagIds] = useState<number[]>([]);
+
+  useEffect(() => {
+    request.get("/api/tag/get").then((res: any) => {
+      if (res.code === 0) {
+        const { allTags = [] } = res.data;
+        console.log("allTags=", allTags);
+        setAllTags(allTags);
+      }
+    });
+  }, []);
   const handlePublish = () => {
     if (!title) {
-      message.warning("请输入标题");
+      messageApi.warning("请输入标题");
       return;
     }
     if (!content) {
-      message.warning("请输入内容");
+      messageApi.warning("请输入内容");
       return;
     }
     request
       .post("/api/article/create", {
         title,
         content,
+        tagIds,
       })
       .then((res: any) => {
         if (res.code === 0) {
@@ -41,11 +56,11 @@ function NewArticle() {
           } else {
             router.replace(`/`);
           }
-          message.success("发布成功");
+          messageApi.success("发布成功");
         }
       })
       .catch((err) => {
-        message.error("发布失败", err);
+        messageApi.error("发布失败", err);
       });
   };
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +68,10 @@ function NewArticle() {
   };
   const handleContentChange = (value: any) => {
     setContent(value);
+  };
+  const handleSelectChange = (value: number[]) => {
+    console.log(`selected ${value}`);
+    setTagIds(value);
   };
   return (
     <div className={styles.container}>
@@ -64,6 +83,21 @@ function NewArticle() {
           value={title}
           onChange={handleTitleChange}
         ></Input>
+        <Select
+          mode="multiple"
+          placeholder="请选择标签"
+          className={styles.tagSelect}
+          onChange={handleSelectChange}
+          allowClear
+        >
+          {allTags?.map((item) => {
+            return (
+              <Select.Option key={item.id} value={item.id} title={item.title}>
+                {item.title}
+              </Select.Option>
+            );
+          })}
+        </Select>
         <Button
           className={styles.button}
           onClick={handlePublish}

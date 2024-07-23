@@ -33,22 +33,22 @@ export async function getData(data: any) {
   }
   return articleRes;
 }
-const list = [
-  {
-    id: 6,
-    content: "加油努力",
-    create_time: "2024-07-10T07:30:50.000Z",
-    update_time: "2024-07-10T07:30:50.000Z",
-    is_delete: 0,
-    user: {
-      id: 2,
-      nickname: "用户_7227",
-      job: "程序员",
-      avatar: "/images/avatar.jpg",
-      introduce: "这个人很懒，什么都没有留下",
-    },
-  },
-];
+// const list = [
+//   {
+//     id: 6,
+//     content: "加油努力",
+//     create_time: "2024-07-10T07:30:50.000Z",
+//     update_time: "2024-07-10T07:30:50.000Z",
+//     is_delete: 0,
+//     user: {
+//       id: 2,
+//       nickname: "用户_7227",
+//       job: "程序员",
+//       avatar: "/images/avatar.jpg",
+//       introduce: "这个人很懒，什么都没有留下",
+//     },
+//   },
+// ];
 const ArticleDetail = async (ctx: any) => {
   // console.log("ctx=", ctx);
   // { params: { articleId: '3' }, searchParams: {} }

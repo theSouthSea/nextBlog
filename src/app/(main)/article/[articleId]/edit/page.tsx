@@ -23,7 +23,7 @@ async function getData(articleId: string) {
     where: {
       id: Number(articleId),
     },
-    relations: ["user"],
+    relations: ["user", "tags"],
   });
   return articleRes;
 }
@@ -33,8 +33,13 @@ async function NewArticle(ctx: any) {
   const { articleId } = params;
   console.log("articleId=", articleId);
   const article = await getData(articleId);
-  const { title: originTitle = "", content: originContent = "" } =
-    article || {};
+  console.log("NewArticle-article=", article);
+  const {
+    title: originTitle = "",
+    content: originContent = "",
+    tags = [],
+  } = article || {};
+  const tagIds = tags?.map((item) => item.id) || [];
   // const store = useStore();
   // const { userId } = store.user.userInfo;
   // const router = useRouter();
@@ -98,6 +103,7 @@ async function NewArticle(ctx: any) {
         originContent={originContent}
         originTitle={originTitle}
         articleId={articleId}
+        tagIds={tagIds}
       ></Editor>
     </div>
   );

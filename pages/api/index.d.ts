@@ -35,3 +35,13 @@ export type IComment = {
   user: IUser;
   article: IArticle;
 };
+
+export type ITag = {
+  id: number;
+  title: string;
+  icon: string;
+  follow_count: number;
+  article_count: number;
+  articles: IArticle[];
+  users: IUser[];
+};

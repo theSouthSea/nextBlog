@@ -4,7 +4,10 @@
   .operation {
     display: flex;
     .title {
-      flex: 1;
+      width: 80%;
+    }
+    .tagSelect {
+      width: 15%;
     }
     .button {
       width: 100px;

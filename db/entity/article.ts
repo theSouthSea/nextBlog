@@ -3,12 +3,14 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { User } from "./user";
 import { Comment } from "./comment";
+import { Tag } from "./tag";
 
 @Entity("articles")
 export class Article {
@@ -37,6 +39,11 @@ export class Article {
   @ManyToOne(() => User)
   @JoinColumn({ name: "user_id" })
   user!: User;
+
+  @ManyToMany(() => Tag, (tag) => tag.articles, {
+    cascade: true,
+  })
+  tags!: Tag[];
 
   @OneToMany(() => Comment, (comment) => comment.article)
   comments!: Comment[];
