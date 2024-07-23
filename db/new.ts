@@ -7,9 +7,9 @@ import mysql2 from "mysql2";
 
 const host = process.env.DATABASE_HOST || "localhost";
 const port = parseInt(process.env.DATABASE_PORT || "3306");
-const username = process.env.DATABASE_USERNAME || "root";
+const username = process.env.DATABASE_USER || "root";
 const password = process.env.DATABASE_PASSWORD || "adminadmin";
-const database = process.env.DATABASE_DATABASE || "blog";
+const database = process.env.DATABASE_NAME || "blog";
 const type = (process.env.DATABASE_TYPE || "mysql") as "mysql";
 console.log("type=", type);
 const AppDataSource = new DataSource({

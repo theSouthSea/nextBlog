@@ -14,9 +14,9 @@ import mysql2 from "mysql2";
 
 const host = process.env.DATABASE_HOST || "localhost";
 const port = parseInt(process.env.DATABASE_PORT || "3306");
-const username = process.env.DATABASE_USERNAME || "root";
+const username = process.env.DATABASE_USER || "root";
 const password = process.env.DATABASE_PASSWORD || "adminadmin";
-const database = process.env.DATABASE_DATABASE || "blog";
+const database = process.env.DATABASE_NAME || "blog";
 const type = (process.env.DATABASE_TYPE || "mysql") as "mysql";
 
 // export const prepareConnection = async () => {
@@ -72,9 +72,12 @@ export const initDataSource = async () => {
       // here you can start to work with your database
       // console.log("dataSource-init-data=", data);
       // return data;
-      console.log("dataSource-init");
+      console.log("dataSource-init-username,host=", username, host);
     })
-    .catch((error) => console.log("dataSource-init-error=", error));
+    .catch((error) => {
+      console.log("dataSource-error-username,host=", username, host);
+      console.log("dataSource-init-error=", error);
+    });
 };
 export { AppDataSource };
 
