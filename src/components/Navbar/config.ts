@@ -8,7 +8,8 @@ export const navs = [
     href: "/about",
   },
   {
-    name: "Contact",
-    href: "/contact",
+    name: "Tag",
+    href: "/tag",
   },
 ];
+

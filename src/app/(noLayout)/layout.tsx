@@ -7,6 +7,7 @@ import { IRootStore } from "@/store/rootStore";
 import { cookies } from "next/headers";
 import { IUserInfo } from "@/store/userStore";
 import { ReactElement } from "react";
+// import ErrorBoundary from "@/components/ErrorBoundary";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,6 +39,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AntdRegistry>
+          {/* <ErrorBoundary>
+          </ErrorBoundary> */}
           <StoreProvider initialValues={initialValues}>
             {children}
           </StoreProvider>

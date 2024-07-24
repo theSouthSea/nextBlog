@@ -19,6 +19,10 @@ import request from "@/services/fetch";
 import { IUserInfo } from "@/store/userStore";
 import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+const DynamicLoginModal = dynamic(() => import("../LoginModal"), {
+  ssr: false,
+});
 
 function Navbar({ children }: { children: ReactNode }) {
   // next.js 14这种用法已经废除,使用usePathname获取路由路径
@@ -105,10 +109,10 @@ function Navbar({ children }: { children: ReactNode }) {
           登录
         </Button> */}
       </section>
-      <LoginModal
+      <DynamicLoginModal
         isShow={isShowLoginModal}
         onClose={handleLoginModalClose}
-      ></LoginModal>
+      ></DynamicLoginModal>
     </div>
   );
 }

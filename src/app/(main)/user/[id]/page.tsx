@@ -15,10 +15,12 @@ export async function generateStaticParams() {
   await initDataSource();
   const userRepo = AppDataSource.getRepository(User);
   const userRes = await userRepo.find();
-  const userIds = userRes.map((item) => ({ id: item.id }));
+  const userIds = userRes.map((item) => ({ id: String(item.id) }));
   return userIds;
 }
-const getData = async (id: number) => {
+const getData = async (params: { id: number }) => {
+  const { id: strId } = params;
+  const id = Number(strId);
   await initDataSource();
   const userRepo = AppDataSource.getRepository(User);
   const articleRepo = AppDataSource.getRepository(Article);
@@ -44,9 +46,11 @@ const getData = async (id: number) => {
   };
 };
 export default async function UserPage(ctx: any) {
-  const id = Number(ctx.params.id);
+  // console.log("UserPage-ctx.params=", ctx.params);
+  // console.log("UserPage-ctx.params.id=", typeof ctx.params.id);
+  // const id = Number(ctx.params.id);
   const { articles, userInfo }: { articles: IArticle[]; userInfo: IUser } =
-    await getData(id);
+    await getData(ctx.params);
   const viewsCount = articles.reduce((pre, cur) => {
     return pre + cur.views;
   }, 0);

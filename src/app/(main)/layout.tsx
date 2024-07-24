@@ -6,6 +6,7 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { StoreProvider } from "@/store/index";
 import { IRootStore } from "@/store/rootStore";
 import { cookies } from "next/headers";
+// import ErrorBoundary from "@/components/ErrorBoundary";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -46,6 +47,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AntdRegistry>
+          {/* <ErrorBoundary></ErrorBoundary> */}
           <StoreProvider initialValues={initialValues}>
             <Layout>{children}</Layout>
           </StoreProvider>
