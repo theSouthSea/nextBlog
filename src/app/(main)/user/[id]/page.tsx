@@ -11,6 +11,13 @@ import Link from "next/link";
 import ArticleItem from "@/components/ArticleItem";
 import { IArticle, IUser } from "pages/api";
 
+export async function generateStaticParams() {
+  await initDataSource();
+  const userRepo = AppDataSource.getRepository(User);
+  const userRes = await userRepo.find();
+  const userIds = userRes.map((item) => ({ id: item.id }));
+  return userIds;
+}
 const getData = async (id: number) => {
   await initDataSource();
   const userRepo = AppDataSource.getRepository(User);
