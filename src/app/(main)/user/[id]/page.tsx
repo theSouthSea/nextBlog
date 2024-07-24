@@ -15,7 +15,7 @@ export async function generateStaticParams() {
   await initDataSource();
   const userRepo = AppDataSource.getRepository(User);
   const userRes = await userRepo.find();
-  const userIds = userRes.map((item) => ({ id: item.id }));
+  const userIds = userRes.map((item) => ({ id: String(item.id) }));
   return userIds;
 }
 const getData = async (id: number) => {
