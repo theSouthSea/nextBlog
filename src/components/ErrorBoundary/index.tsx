@@ -1,7 +1,12 @@
-import React from 'react';
+import React from "react";
+interface ComponentProps {
+  children: React.ReactNode;
+}
 
-class ErrorBoundary extends React.Component {
-  constructor(props: any) {
+type ReadonlyComponentProps = Readonly<ComponentProps>;
+
+class ErrorBoundary extends React.Component<ReadonlyComponentProps> {
+  constructor(props: ReadonlyComponentProps) {
     super(props);
     this.state = {
       hasError: false,
@@ -42,3 +47,4 @@ class ErrorBoundary extends React.Component {
 }
 
 export default ErrorBoundary;
+
